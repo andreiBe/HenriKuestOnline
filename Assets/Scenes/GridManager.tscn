@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://djchxynhx6go6"]
+
+[ext_resource type="Script" path="res://Assets/Scripts/grid.gd" id="1"]
+[ext_resource type="Script" path="res://Assets/Scripts/Multiplayer.gd" id="2_qn04r"]
+[ext_resource type="PackedScene" uid="uid://b3o45hxvivaq3" path="res://Assets/Scenes/characters/Player.tscn" id="3_gx2uc"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_lopto"]
+properties/0/path = NodePath("Multiplayer:teams")
+properties/0/spawn = true
+properties/0/sync = true
+properties/0/watch = false
+
+[node name="GridManager" type="Node2D"]
+script = ExtResource("1")
+width = 20
+height = 15
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://Assets/Scenes/characters/Player.tscn", "res://Assets/Scenes/characters/Soldier.tscn", "res://Assets/Scenes/characters/EnemyPlayer.tscn", "res://Assets/Scenes/tents/Tent.tscn")
+spawn_path = NodePath("..")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_lopto")
+
+[node name="Multiplayer" type="Node" parent="."]
+script = ExtResource("2_qn04r")
+player_scene = ExtResource("3_gx2uc")

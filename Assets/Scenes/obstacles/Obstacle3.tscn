@@ -1,0 +1,40 @@
+[gd_scene load_steps=4 format=3 uid="uid://c4d3cevv6vxkx"]
+
+[ext_resource type="Texture2D" uid="uid://bwo0fsw0jixj6" path="res://Assets/Sprites/Obstacles.png" id="2"]
+
+[sub_resource type="GDScript" id="2"]
+script/source = "extends Sprite2D
+
+@export var zIndex = 20
+# Declare member variables here. Examples:
+
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	z_index = zIndex
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
+"
+
+[sub_resource type="RectangleShape2D" id="1"]
+size = Vector2(19, 19)
+
+[node name="Obstacle" type="StaticBody2D" groups=["Obstacle"]]
+z_index = 20
+collision_layer = 4
+
+[node name="Square" type="Sprite2D" parent="."]
+z_index = 2
+scale = Vector2(3, 3)
+texture = ExtResource("2")
+region_enabled = true
+region_rect = Rect2(31, 0, 14, 20)
+script = SubResource("2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 12)
+shape = SubResource("1")

@@ -1,0 +1,138 @@
+[gd_scene load_steps=16 format=3 uid="uid://b3o45hxvivaq3"]
+
+[ext_resource type="Script" path="res://Assets/Scripts/Player.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://cl5lahbnhpdfi" path="res://Assets/Sprites/RotatedPlayer.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://dcu04kvhsguyq" path="res://Assets/Sprites/Players/Player0.png" id="2_rvtdp"]
+[ext_resource type="Texture2D" uid="uid://bnbwyhrep6xb1" path="res://Assets/Sprites/Players/Player1.png" id="3_vy186"]
+[ext_resource type="Texture2D" uid="uid://crvbs2jcsm2jv" path="res://Assets/Sprites/Players/Player2.png" id="4_181kn"]
+[ext_resource type="Texture2D" uid="uid://1fywc1vtdja5" path="res://Assets/Sprites/Players/Player3.png" id="5_3v66t"]
+[ext_resource type="Texture2D" uid="uid://cnflbufjcogmt" path="res://Assets/Sprites/Players/RotatedPlayer1.png" id="7_gt7cp"]
+[ext_resource type="Texture2D" uid="uid://devmil35rvql8" path="res://Assets/Sprites/Players/RotatedPlayer2.png" id="8_3r042"]
+[ext_resource type="Texture2D" uid="uid://ns2kbxu71lvs" path="res://Assets/Sprites/Players/RotatedPlayer3.png" id="9_tghel"]
+[ext_resource type="Script" path="res://Assets/Scenes/characters/PlayerSync.gd" id="10_33u32"]
+
+[sub_resource type="ParticleProcessMaterial" id="5"]
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 140.0
+emission_ring_inner_radius = 0.0
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+scale_min = 3.0
+scale_max = 5.0
+color = Color(0.34902, 0.878431, 0.054902, 1)
+
+[sub_resource type="RectangleShape2D" id="3"]
+size = Vector2(4, 6)
+
+[sub_resource type="SpriteFrames" id="4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_rvtdp")
+}],
+"loop": true,
+"name": &"default0",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_vy186")
+}],
+"loop": true,
+"name": &"default1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_181kn")
+}],
+"loop": true,
+"name": &"default2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_3v66t")
+}],
+"loop": true,
+"name": &"default3",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2")
+}],
+"loop": true,
+"name": &"right0",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_gt7cp")
+}],
+"loop": true,
+"name": &"right1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_3r042")
+}],
+"loop": true,
+"name": &"right2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_tghel")
+}],
+"loop": true,
+"name": &"right3",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="6"]
+radius = 40.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_bqc5v"]
+properties/0/path = NodePath("MultiplayerSynchronizer:sync_position")
+properties/0/spawn = true
+properties/0/sync = true
+properties/0/watch = false
+
+[node name="Player" type="CharacterBody2D" groups=["Bishop", "Player", "UniquePlayer"]]
+z_index = 30
+position = Vector2(82, 48)
+collision_mask = 5
+script = ExtResource("1")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+scale = Vector2(0.3, 0.3)
+emitting = false
+amount = 40
+process_material = SubResource("5")
+lifetime = 3.0
+speed_scale = 3.45
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["Player"]]
+position = Vector2(0, 1)
+scale = Vector2(3, 3)
+shape = SubResource("3")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(3, 3)
+sprite_frames = SubResource("4")
+animation = &"default2"
+
+[node name="CommandArea" type="Area2D" parent="."]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CommandArea"]
+scale = Vector2(5, 5)
+shape = SubResource("6")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_bqc5v")
+script = ExtResource("10_33u32")

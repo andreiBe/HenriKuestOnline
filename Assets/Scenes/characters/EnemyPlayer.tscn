@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://cjlmrkyeqdyub"]
+
+[ext_resource type="Script" path="res://Assets/Scripts/BotPlayer.gd" id="1_ptfn7"]
+[ext_resource type="Texture2D" uid="uid://b6w2oejpugrad" path="res://Assets/Sprites/EnemyPlayer.png" id="2_xdjbh"]
+
+[sub_resource type="RectangleShape2D" id="1"]
+size = Vector2(1.55556, 0.944444)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_c362s"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/sync = true
+properties/0/watch = false
+
+[node name="CharacterBody2D" type="CharacterBody2D" groups=["Bishop"]]
+position = Vector2(-100, -100)
+scale = Vector2(2, 2)
+script = ExtResource("1_ptfn7")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_xdjbh")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+position = Vector2(1.39078e-07, 6.16667)
+scale = Vector2(3, 3)
+shape = SubResource("1")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_c362s")

@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://csk2nl2b8tqeo"]
+
+[ext_resource type="Texture2D" uid="uid://cb7ipllfdfadv" path="res://Assets/Sprites/battle symbol2.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://hck0bw1rtoee" path="res://Assets/Sprites/battle symbol.png" id="2"]
+
+[sub_resource type="SpriteFrames" id="1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Node2D" type="Node2D"]
+z_index = 40
+scale = Vector2(3, 3)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("1")
+frame = 1
