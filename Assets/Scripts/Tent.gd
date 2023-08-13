@@ -8,7 +8,6 @@ var soldierScene = preload("res://Assets/Scenes/characters/Soldier.tscn")
 var _soldiers: Array[Fighter] = []
 @export var ownerPlayerNumber = 0
 @export var timeBetweenSpawns = 20
-@onready var mask = get_node("TextureProgressBar")
 var grid: Grid
 @export var id = 0
 
@@ -27,12 +26,6 @@ func _ready():
 	grid = get_tree().current_scene.get_node("GridManager")
 	
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-	var percentDone = timer.get_time_left()/timer.get_wait_time()
-	if mask:
-		mask.value = (1-percentDone) * 100
-	
 
 # Called by timer countdown. Spawns the unit currently in production.
 func _handleSpawning():

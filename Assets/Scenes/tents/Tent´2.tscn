@@ -1,0 +1,94 @@
+[gd_scene load_steps=14 format=3 uid="uid://jgy0dsdwy7ew"]
+
+[ext_resource type="Script" path="res://Assets/Scripts/Tent.gd" id="1_dbqt6"]
+[ext_resource type="Texture2D" uid="uid://cj7usjhilnbun" path="res://Assets/Sprites/Tents.png" id="2_0ugt8"]
+[ext_resource type="Script" path="res://Assets/Scripts/TentRecruitment.gd" id="3_35dab"]
+[ext_resource type="Script" path="res://Assets/Scripts/AttackableTent.gd" id="4_1jo0e"]
+[ext_resource type="Texture2D" uid="uid://dmj57mrr4a1mu" path="res://Assets/Sprites/C.png" id="5_6paf3"]
+[ext_resource type="PackedScene" uid="uid://csk2nl2b8tqeo" path="res://Assets/Scenes/battle_symbol.tscn" id="6_h6gxw"]
+
+[sub_resource type="CircleShape2D" id="1"]
+radius = 34.0
+
+[sub_resource type="CircleShape2D" id="2"]
+radius = 50.0899
+
+[sub_resource type="Gradient" id="Gradient_d38m1"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_047lh"]
+gradient = SubResource("Gradient_d38m1")
+width = 20
+
+[sub_resource type="Gradient" id="Gradient_ugb0t"]
+colors = PackedColorArray(0, 0.662745, 0, 1, 0, 1, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_a2ad5"]
+gradient = SubResource("Gradient_ugb0t")
+width = 100
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_lap4g"]
+properties/0/path = NodePath("Texture:region_rect")
+properties/0/spawn = true
+properties/0/sync = true
+properties/0/watch = false
+properties/1/path = NodePath(".:ownerPlayerNumber")
+properties/1/spawn = true
+properties/1/sync = true
+properties/1/watch = false
+properties/2/path = NodePath(".:position")
+properties/2/spawn = true
+properties/2/sync = true
+properties/2/watch = false
+properties/3/path = NodePath(".:id")
+properties/3/spawn = true
+properties/3/sync = true
+properties/3/watch = false
+properties/4/path = NodePath("BattleSymbol:visible")
+properties/4/spawn = true
+properties/4/sync = true
+properties/4/watch = false
+
+[node name="Tent" type="Node2D" groups=["PlayerTents", "Tents"]]
+script = ExtResource("1_dbqt6")
+
+[node name="Texture" type="Sprite2D" parent="."]
+scale = Vector2(2, 2)
+texture = ExtResource("2_0ugt8")
+region_enabled = true
+region_rect = Rect2(0, 0, 13, 17)
+
+[node name="Recruitment" type="Area2D" parent="."]
+script = ExtResource("3_35dab")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Recruitment"]
+shape = SubResource("1")
+
+[node name="Attack" type="Area2D" parent="."]
+script = ExtResource("4_1jo0e")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Attack"]
+shape = SubResource("2")
+
+[node name="KeyHelper" type="Sprite2D" parent="."]
+z_index = 40
+position = Vector2(-21, -12)
+scale = Vector2(1.25, 1.15625)
+texture = ExtResource("5_6paf3")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+visible = false
+offset_left = -25.0
+offset_top = -29.0
+offset_right = 25.0
+offset_bottom = -19.0
+value = 50.0
+nine_patch_stretch = true
+texture_under = SubResource("GradientTexture1D_047lh")
+texture_progress = SubResource("GradientTexture1D_a2ad5")
+
+[node name="BattleSymbol" parent="." instance=ExtResource("6_h6gxw")]
+visible = false
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_lap4g")
